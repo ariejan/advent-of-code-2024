@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+def create_day(day)
+  day_str = day.to_s.rjust(2, '0')
+  
+  # Create directories if they don't exist
+  FileUtils.mkdir_p('lib/solutions')
+  FileUtils.mkdir_p('lib/input')
+  FileUtils.mkdir_p('spec/solutions')
+  FileUtils.mkdir_p('spec/input')
+  
+  # Copy solution template
+  solution_template = File.read('templates/day.rb')
+  File.write(
+    "lib/solutions/day_#{day_str}.rb",
+    solution_template % { day: day_str }
+  )
+  
+  # Copy test template
+  test_template = File.read('templates/day_spec.rb')
+  File.write(
+    "spec/solutions/day_#{day_str}_spec.rb",
+    test_template % { day: day_str }
+  )
+  
+  # Create empty input file
+  FileUtils.touch("lib/input/day_#{day_str}.txt")
+  FileUtils.touch("spec/input/day_#{day_str}_test.txt")
+  
+  puts "Created files for day #{day_str}:"
+  puts "  - lib/solutions/day_#{day_str}.rb"
+  puts "  - lib/input/day_#{day_str}.txt"
+  puts "  - spec/solutions/day_#{day_str}_spec.rb"
+  puts "  - spec/input/day_#{day_str}_test.txt"
+end
+
+if ARGV.empty?
+  puts "Usage: bin/generate DAY"
+  puts "Example: bin/generate 1"
+  exit 1
+end
+
+day = ARGV[0].to_i
+create_day(day)
+
