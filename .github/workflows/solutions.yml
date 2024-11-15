@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  solutions:
     runs-on: ubuntu-latest
     continue-on-error: true
 
