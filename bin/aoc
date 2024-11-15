@@ -3,11 +3,17 @@
 require_relative '../lib/application'
 
 if ARGV.empty?
-  puts "Usage: bin/aoc DAY"
-  puts "Example: bin/aoc 1"
+  puts 'Usage: bin/aoc DAY'
+  puts 'Example: bin/aoc 1'
+  puts 'To run all solutions: bin/aoc all'
   exit 1
 end
 
-day = ARGV[0].to_i
-AdventOfCode2024.run(day)
-
+if ARGV[0].downcase == 'all'
+  1.upto(25) do |day|
+    AdventOfCode2024.run(day)
+  end
+else
+  day = ARGV[0].to_i
+  AdventOfCode2024.run(day)
+end

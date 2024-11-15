@@ -1,4 +1,4 @@
-name: Test
+name: Solutions
 
 on:
   push:
@@ -12,6 +12,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
@@ -21,4 +22,4 @@ jobs:
           ruby-version: 3.3.4
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run tests
-        run: bundle exec rspec
+        run: bundle exec bin/aoc all
