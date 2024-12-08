@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.5.1)
+    matrix (0.4.2)
     parallel (1.26.3)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
@@ -22,6 +23,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  matrix
   parallel (~> 1.11, >= 1.11.2)
   rspec
 
