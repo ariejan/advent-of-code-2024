@@ -5,7 +5,8 @@ class Day10
   end
 
   def part_two(input)
-    0
+    thf = TrailheadFinder.new(input)
+    thf.find_trailheads_with_rating
   end
 end
 
@@ -57,5 +58,40 @@ class TrailheadFinder
     end
 
     reachable_nines
+  end
+
+  def find_trailheads_with_rating
+    total_paths = 0
+
+    @grid.each_with_index do |row, y|
+      row.each_with_index do |cell, x|
+        total_paths += count_unique_paths(x, y) if cell == 0
+      end
+    end
+
+    total_paths
+  end
+
+  def count_unique_paths(x, y)
+    visited = Array.new(@h) { Array.new(@w, false) }
+    paths = 0
+
+    dfs(x, y, 0, visited, paths)
+  end
+
+  def dfs(x, y, current_value, visited, paths)
+    return 0 if x < 0 || x >= @w || y < 0 || y >= @h || visited[y][x] || @grid[y][x] != current_value
+
+    return 1 if @grid[y][x] == 9
+
+    visited[y][x] = true
+    path_count = 0
+
+    [[0, 1], [1, 0], [0, -1], [-1, 0]].each do |dx, dy|
+      path_count += dfs(x + dx, y + dy, current_value + 1, visited, paths)
+    end
+
+    visited[y][x] = false
+    path_count
   end
 end
