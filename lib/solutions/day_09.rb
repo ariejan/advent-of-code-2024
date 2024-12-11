@@ -2,12 +2,12 @@ class Day09
   attr_accessor :input, :disk, :checksum
 
   def part_one(input)
-    return 0
     # Parse input
     parse_input(input)
 
     # Defrag
     defrag!
+    @disk.compact!
 
     checksum!
     @checksum
