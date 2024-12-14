@@ -1,4 +1,9 @@
 class Day14
+  KNOWN_TREE_PATTERN = [
+    '   #   ',
+    '  ###  ',
+    ' ##### '
+  ]
   def part_one(input, w = 101, h = 103)
     quadrants = [0, 0, 0, 0]
     wd = w / 2
@@ -28,28 +33,54 @@ class Day14
                 .map { |line| line.scan(/(-?\d+)/).flatten }
                 .map { |values| Robot.new(values[0].to_i, values[1].to_i, values[2].to_i, values[3].to_i, w, h) }
 
-    moves = 1
+    moves = 0
     loop do
-      bots.map(&:move!)
       coords = bots.map(&:p)
+      grid = to_grid(w, h, coords)
+      bounding_box = bounding_box(coords)
 
-      if all_semetrical?(w, h, coords)
-        puts "--- Move #{moves} ---"
-        display_bots(w, h, bots.map(&:p))
-        puts ''
+      pattern = extract_pattern(grid, bounding_box)
+
+      if matches_christmas_tree?(pattern)
+        puts "Found it after #{moves} moves"
+        display_bots(w, h, coords)
         break
       end
 
+      bots.map(&:move!)
       moves += 1
     end
   end
 
-  def all_semetrical?(w, h, coords)
+  def to_grid(w, h, coords)
     grid = Array.new(h) { Array.new(w, '.') }
     coords.each do |x, y|
       grid[y][x] = '#'
     end
-    grid.all? { |row| row == row.reverse }
+    grid
+  end
+
+  def bounding_box(coords)
+    x_values = coords.map { |x, _| x }
+    y_values = coords.map { |_, y| y }
+
+    [x_values.min, y_values.min, x_values.max, y_values.max]
+  end
+
+  def extract_pattern(grid, bounding_box)
+    x_min, y_min, x_max, y_max = bounding_box
+    pattern = []
+    (y_min..y_max).each do |y|
+      row = grid[y][x_min..x_max].join
+      pattern << row
+    end
+    pattern
+  end
+
+  def matches_christmas_tree?(pattern)
+    pattern[0].count('#') == 1 &&
+      (pattern[1].count('#') == 2 || pattern[1].count('#') == 3) &&
+      (pattern[1].count('#') == 2 || pattern[1].count('#') == 5)
   end
 
   def display_bots(w, h, coords)
