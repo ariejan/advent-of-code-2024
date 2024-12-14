@@ -23,8 +23,46 @@ class Day14
     quadrants.inject(:*)
   end
 
-  def part_two(input)
-    0
+  def part_two(input, w = 101, h = 103)
+    bots = input.split("\n")
+                .map { |line| line.scan(/(-?\d+)/).flatten }
+                .map { |values| Robot.new(values[0].to_i, values[1].to_i, values[2].to_i, values[3].to_i, w, h) }
+
+    moves = 1
+    loop do
+      bots.map(&:move!)
+      coords = bots.map(&:p)
+
+      if all_semetrical?(w, h, coords)
+        puts "--- Move #{moves} ---"
+        display_bots(w, h, bots.map(&:p))
+        puts ''
+        break
+      end
+
+      moves += 1
+    end
+  end
+
+  def all_semetrical?(w, h, coords)
+    grid = Array.new(h) { Array.new(w, '.') }
+    coords.each do |x, y|
+      grid[y][x] = '#'
+    end
+    grid.all? { |row| row == row.reverse }
+  end
+
+  def display_bots(w, h, coords)
+    grid = Array.new(h) { Array.new(w, '.') }
+    coords.each do |x, y|
+      grid[y][x] = '#'
+    end
+    grid.each do |row|
+      puts row.join
+    end
+  end
+
+  def all_semetrical(coords)
   end
 end
 
