@@ -110,36 +110,27 @@ class Day15
     def step!(direction)
       dir = map_direction(direction)
       player = @entities.find { |e| e.type == :player }
-      move!(player, dir)
+      move!(player, dir) if can_move?(player, dir)
     end
 
-    # Move, 
-    def move!(entity, dir)
-      # puts "Moving #{entity.type} #{entity.x},#{entity.y} #{dir.inspect}"
+    def can_move?(entity, dir) 
+      move!(entity, dir, true)
+    end
 
+    def move!(entity, dir, test = false)
       # Get list of target coords to check
       targets = entity.targets(dir)
-
-      # puts targets.inspect
-
       entities = find_entities_at(targets)
 
-      # puts entities.inspect
-
       # Can't move if we're hitting a wall
-      return false if entities.any? { |e| e.type == :wall }
-
-      # Free space
-      # REMOVE: entities.all? { |e| e.move!(dir)} will return true for an 
-      # empty array as well. 
-      # if entities.none? 
-      #   entity.move!(dir) 
-      #   return true
-      # end
+      return false if entities.any? { |e| e.type == :wall } 
 
       # Now free space, not a wall, so it must be one or two crates
-      if entities.all? { |e| move!(e, dir)}
-        entity.move!(dir)
+      if entities.all? { |e| can_move?(e, dir)}
+        if !test
+          entities.each { |e| move!(e, dir) }
+          entity.move!(dir) 
+        end
         return true
       end
       
