@@ -19,9 +19,6 @@ class Day12Part2
 
     price_perimeter, price_sides = @grid.calculate_price_area_perimeter
 
-    puts "Price perimeter: #{price_perimeter}"
-    puts "Price sides: #{price_sides}"
-
     price_sides
   end
 end
