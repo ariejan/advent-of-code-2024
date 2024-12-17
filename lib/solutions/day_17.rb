@@ -8,12 +8,48 @@ class Day17
 
     cpu = Cpu.new(ra, rb, rc, instructions)
     output = cpu.run
-
-    output
+    
+    output.map(&:to_s).join(',')
   end
 
   def part_two(input)
-    0
+    lines = input.split("\n")
+    ra = lines[0].scan(/Register A: (\d+)/).first.first.to_i
+    rb = lines[1].scan(/Register B: (\d+)/).first.first.to_i
+    rc = lines[2].scan(/Register C: (\d+)/).first.first.to_i
+    instructions = lines[4].split(":").last.split(",").map(&:to_i)
+
+    target = instructions.dup
+
+    # Instead of bruteforcing the full solution at once, we want
+    # to create partial solutions and work towards a full one. 
+    # 
+    # Since the "Cpu" will output 3-bit chunks, we can work backwards
+    # with a minimal A for outputting the last output chunk correctly. 
+    # 
+    # Given the example 0,3,5,4,3,0 we try to figure out which
+    # minimal value of A results in the right most 0 in the output. 
+    
+    # Given an empty output, A is 0 (that is when the program ends.)
+    results = [0]
+
+    # Incrementally find more chunks, right to left
+    target.size.times do |i|
+      # Use the results from the previous iteration to find the next
+      results = results.flat_map do |n|
+        # Bit-shift n by 3 to the left, and add a number between 0 and 7
+        # For these values of A, see which are valid candidates
+        (0..7).map do |a|
+          candidate = n * 8 + a
+          output = Cpu.new(candidate, rb, rc, target).run
+          candidate if target[-i - 1..] == output
+        end.compact
+      end
+    end
+    
+    # results now has, probably, one or more values for A, so pick 
+    # the first, and smallest, one. 
+    results.first
   end
 end
 
@@ -59,7 +95,7 @@ class Cpu
       step
       # puts to_s
     end
-    @output.map(&:to_s).join(',')
+    output
   end
 
   # Single CPU cycle

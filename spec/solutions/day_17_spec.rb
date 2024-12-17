@@ -2,9 +2,10 @@ require "spec_helper"
 require "solutions/day_17"
 
 RSpec.describe Day17 do
-  let(:input) { File.read(File.join(__dir__, '..', '..', 'spec', 'input', 'day_17_test.txt')).strip }
 
   describe '#part_one' do
+    let(:input) { File.read(File.join(__dir__, '..', '..', 'spec', 'input', 'day_17_test.txt')).strip }
+
     it 'test 1' do
       cpu = Cpu.new(0, 0, 9, [2,6])
       cpu.run
@@ -56,10 +57,10 @@ RSpec.describe Day17 do
   end
 
   describe '#part_two' do
-    xit 'calculates the correct solutions for part two' do
-      cpu = Cpu.new(2024, 0, 0, [0,3,5,4,3,0])
-      result = cpu.run
-      expect(result).not_to eql(117440)
+    let(:input) { File.read(File.join(__dir__, '..', '..', 'spec', 'input', 'day_17b_test.txt')).strip }
+
+    it 'calculates the correct solutions for part two' do
+      expect(subject.part_two(input)).to eq(117440)
     end
   end
 end
