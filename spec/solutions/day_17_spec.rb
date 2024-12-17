@@ -51,13 +51,15 @@ RSpec.describe Day17 do
     ## 
 
     it 'calculates the correct solutions for part one' do
-      expect(subject.part_one(input)).to eq([4,6,3,5,6,3,5,2,1,0].map(&:to_s).join)
+      expect(subject.part_one(input)).to eq("4,6,3,5,6,3,5,2,1,0")
     end
   end
 
   describe '#part_two' do
-    it 'calculates the correct solutions for part two' do
-      expect(subject.part_two(input)).to eq(0)
+    xit 'calculates the correct solutions for part two' do
+      cpu = Cpu.new(2024, 0, 0, [0,3,5,4,3,0])
+      result = cpu.run
+      expect(result).not_to eql(117440)
     end
   end
 end

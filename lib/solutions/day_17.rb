@@ -57,7 +57,7 @@ class Cpu
   def run 
     while @ip < @instructions.size
       step
-      puts to_s
+      # puts to_s
     end
     @output.map(&:to_s).join(',')
   end
@@ -66,7 +66,7 @@ class Cpu
   def step
     opcode, literal, combo = read_instruction
 
-    puts "Opcode: #{opcode}, Literal: #{literal}, Combo: #{combo}"
+    # puts "Opcode: #{opcode}, Literal: #{literal}, Combo: #{combo}"
 
     case opcode
     when "adv"
