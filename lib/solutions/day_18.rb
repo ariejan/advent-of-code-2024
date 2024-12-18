@@ -49,7 +49,7 @@ class Day18
       r = (0...@corruptions.size)
 
       result = r.bsearch do |corruption_index|
-        puts "BSearching #{corruption_index} - #{@corruptions[corruption_index].join(',')}"
+        # puts "BSearching #{corruption_index} - #{@corruptions[corruption_index].join(',')}"
         @grid = Array.new(@rows) { Array.new(@cols, '.') }
         rain_corruption!(corruption_index)
         run! == Float::INFINITY
