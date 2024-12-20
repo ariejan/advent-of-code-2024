@@ -6,7 +6,7 @@ RSpec.describe Day20 do
 
   describe '#part_one' do
     it 'calculates the correct solutions for part one' do
-      results = subject.part_one(input)
+      results = Day20::DayOne.new(input).run!
 
       expect(results[2]).to eq(14)
       expect(results[4]).to eq(14)
@@ -24,7 +24,22 @@ RSpec.describe Day20 do
 
   describe '#part_two' do
     it 'calculates the correct solutions for part two' do
-      expect(subject.part_two(input)).to eq(0)
+      results = Day20::DayTwo.new(input).run!
+
+      expect(results[50]).to eq(32)
+      expect(results[52]).to eq(31)
+      expect(results[54]).to eq(29)
+      expect(results[56]).to eq(39)
+      expect(results[58]).to eq(25)
+      expect(results[60]).to eq(23)
+      expect(results[62]).to eq(20)
+      expect(results[64]).to eq(19)
+      expect(results[66]).to eq(12)
+      expect(results[68]).to eq(14)
+      expect(results[70]).to eq(12)
+      expect(results[72]).to eq(22)
+      expect(results[74]).to eq(4)
+      expect(results[76]).to eq(3)
     end
   end
 end
