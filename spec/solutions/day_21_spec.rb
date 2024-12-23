@@ -9,11 +9,5 @@ RSpec.describe Day21 do
       expect(subject.part_one(input)).to eq(126384)
     end
   end
-
-  describe '#part_two' do
-    xit 'calculates the correct solutions for part two' do
-      expect(subject.part_two(input)).to eq(0)
-    end
-  end
 end
 

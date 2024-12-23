@@ -8,11 +8,17 @@ class Day21
     sim.run!
   end
 
+  def part_two(input)
+    sequences = input.split("\n")
+    sim = DayOne.new(sequences, 26)
+    sim.run!
+  end
+
   class DayOne
 
-    def initialize(sequences)
+    def initialize(sequences, direction_keypads = 3)
       @sequences = sequences
-
+      @direction_keypads = direction_keypads
       @moves_cache = {}
       @scores_cache = {}
     end
@@ -59,7 +65,7 @@ class Day21
         500.times do 
           @moves_cache.clear
           @scores_cache.clear
-          value = [value, score(sequence, 3, 0) * sequence[0..-2].to_i].min
+          value = [value, score(sequence, @direction_keypads, 0) * sequence[0..-2].to_i].min
         end
         result += value
       end
